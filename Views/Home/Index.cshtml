@@ -1,0 +1,55 @@
+﻿@model DynamicTimeTable.Models.TimeTableInputModel
+
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Time Table Input</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label">No of Working Days:</label>
+                    <input asp-for="WorkingDays" type="number" class="form-control"  />
+                    <span asp-validation-for="WorkingDays" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">No of Subjects per Day:</label>
+                    <input asp-for="SubjectsPerDay" type="number" class="form-control"  />
+                    <span asp-validation-for="SubjectsPerDay" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Total Subjects:</label>
+                    <input asp-for="TotalSubjects" type="number" class="form-control"  />
+                    <span asp-validation-for="TotalSubjects" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Total Hours for Week:</label>
+                    <input asp-for="TotalHours" type="text" id="totalHours" class="form-control"  readonly/>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(() => {
+            $(document).on("input", "input[name=SubjectsPerDay], input[name=WorkingDays]", function () {
+                let subjectsPerDay = $("input[name=SubjectsPerDay]").val();
+                let workingDays = $("input[name=WorkingDays]").val();
+
+                let totalHours = (subjectsPerDay && workingDays) ? subjectsPerDay * workingDays : 0;
+
+                $("#totalHours").val(totalHours);
+            });
+        });
+    </script>
+}
